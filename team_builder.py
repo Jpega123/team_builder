@@ -312,11 +312,11 @@ if st.session_state.relevant_job_list:
         while job_not_parsed_successfully:
             cache_key = hashlib.md5(job['role'].encode()).hexdigest()
             prompt = f"""
-            Generate a JSON object that represents the monthly median salary in US Dollars for a specific job role, with comparisons between the Philippines and the United States. Please adhere to the following guidelines:
+            Generate a JSON object that represents the monthly median salary in US Dollars for a specific job role, with comparisons between the Colombia, Philippines and the United States. Please adhere to the following guidelines:
             - The output must be a JSON object without any comments.
             - All monetary values must be in USD.
             - Salaries should be expressed as whole numbers without commas; ensure they are realistic and below 10000.
-            - Typically, salaries in the United States are significantly higher than in the Philippines; please consider this when providing figures.
+            - Typically, salaries in the United States are significantly higher than in the Colombia and Philippines; please consider this when providing figures.
             - The format of the JSON should strictly follow the structure below:
 
             Here's the job: {job['role']}
@@ -324,6 +324,7 @@ if st.session_state.relevant_job_list:
             Required JSON format:
             {{
                 "salary_comparison": {{
+                    "colombia": <number>,
                     "philippines": <number>,
                     "united_states": <number>
                 }}
@@ -384,6 +385,7 @@ if st.session_state["job_list_salary"]:
         st.markdown("##### Cost Calculation")
 
         for i in range(total_jobs):
+            st.session_state['job_list_salary'][i]["colombia_total_cost"] = st.session_state['job_list_salary'][i]["no of employees"] * st.session_state['job_list_salary'][i]["salary_comparison"]["colombia"]
             st.session_state['job_list_salary'][i]["philippines_total_cost"] = st.session_state['job_list_salary'][i]["no of employees"] * st.session_state['job_list_salary'][i]["salary_comparison"]["philippines"]
             st.session_state['job_list_salary'][i]["united_states_total_cost"] = st.session_state['job_list_salary'][i]["no of employees"] * st.session_state['job_list_salary'][i]["salary_comparison"]["united_states"]
             st.session_state['job_list_salary'][i]["total_savings"] = st.session_state['job_list_salary'][i]["united_states_total_cost"] - st.session_state['job_list_salary'][i]["philippines_total_cost"]
@@ -418,7 +420,7 @@ if st.session_state["job_list_salary"]:
         # Refined job role list with cost difference and savings information
         st.markdown("### Job Role List with Cost Difference and Savings Information when hiring through Connext Global Solutions")
 
-        refined_df = df[["job_role", "philippines_total_cost", "united_states_total_cost","connext_total_cost", "total_savings"]]
+        refined_df = df[["job_role", "colombia_total_cost", "philippines_total_cost", "united_states_total_cost","connext_total_cost", "total_savings"]]
         st.write(refined_df)
 
         buffer = io.BytesIO()
