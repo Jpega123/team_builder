@@ -403,12 +403,13 @@ if st.session_state["job_list_salary"]:
             file_name='team_builder_report.csv',
             mime='text/csv',
         )
-
+        colombia_overall_cost = df["colombia_total_cost"].sum()
         philippines_overall_cost = df["philippines_total_cost"].sum()
         united_states_overall_cost = df["united_states_total_cost"].sum()
         expected_savings = df["total_savings"].sum()
         connext_total_cost = df["philippines_total_cost"].sum()  # Calculate the total cost when hiring through Connext Global Solutions
 
+        st.write(f"Colombia Overall Cost: {colombia_overall_cost} USD")
         st.write(f"Philippines Overall Cost: {philippines_overall_cost} USD")
         st.write(f"United States Overall Cost: {united_states_overall_cost} USD")
         st.divider()
