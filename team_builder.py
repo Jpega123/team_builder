@@ -434,10 +434,12 @@ if st.session_state["job_list_salary"]:
         )
 
         # Add a summary of savings information
+        total_colombia_cost = refined_df["colombia_total_cost"].sum()
         total_philippines_cost = refined_df["philippines_total_cost"].sum()
         total_united_states_cost = refined_df["united_states_total_cost"].sum()
         total_savings = refined_df["total_savings"].sum()
 
+        st.write(f"**Total Cost if Hiring in the Colombia:** ${total_colombia_cost:,.2f}")
         st.write(f"**Total Cost if Hiring in the Philippines:** ${total_philippines_cost:,.2f}")
         st.write(f"**Total Cost if Hiring in the United States:** ${total_united_states_cost:,.2f}")
         st.write(f"**Total Cost if Hiring through Connext Global Solutions:** ${connext_total_cost:,.2f}")
